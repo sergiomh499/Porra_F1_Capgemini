@@ -16,7 +16,8 @@ porristas = { # que no porreros ni mamporreros
     'mar'   :   'Maria',
     'naz'   :   'Nazaret',
     'pab'   :   'Pablo',
-    'ser'   :   'Sergio'
+    'ric'   :   'Ricardo',
+    'ser'   :   'Sergio',
 } 
 
 circuitos = [
@@ -74,73 +75,76 @@ if __name__ == '__main__':
         'mar'   :   0,
         'naz'   :   0,
         'pab'   :   0,
+        'ric'   :   0,
         'ser'   :   0,
     }
     
-    for porrista in porras:
-        for porra in porras[porrista]:
-            print("\tCalculado puntuaciones de", porristas[porrista], '...')
-            for index, resultado_gp in enumerate(resultados):
-                print("\t-> GP de", circuitos[index], ":", end=' ')
-                # CLASIFICACION
-                # primero clasificacion
-                if resultado_gp[0]==porra[0] and not resultado_gp[0]=='XXX':
+    for porrista, porra in porras.items():
+        print("\tCalculado puntuaciones de", porristas[porrista], '...')
+        for index, resultado_gp in enumerate(resultados):
+            print("\t-> GP de", circuitos[index], ":", end=' ')
+            # CLASIFICACION
+            # primero clasificacion
+            print("(clasificacion)", end=' ')
+            if resultado_gp[0]==porra[index][0] and not resultado_gp[0]=='XXX':
+                puntuaciones[porrista] += puntuaciones_gp['clasificacion_pos1']
+                print("+", puntuaciones_gp['clasificacion_pos1'], "pts", end=' ')
+            # segundo clasificacion
+            if resultado_gp[1]==porra[index][1] and not resultado_gp[1]=='XXX':
+                puntuaciones[porrista] += puntuaciones_gp['clasificacion_pos2']
+                print("+", puntuaciones_gp['clasificacion_pos2'], "pts", end=' ')
+            # tercero clasificacion
+            if resultado_gp[2]==porra[index][2] and not resultado_gp[2]=='XXX':
+                puntuaciones[porrista] += puntuaciones_gp['clasificacion_pos3']
+                print("+", puntuaciones_gp['clasificacion_pos3'], "pts", end=' ')
+            # en podio de clasificacion
+            puntuacion_podio = puntuaciones_gp['clasificacion_podio'] * numero_valores_interseccion(resultado_gp[0:3],porra[index][0:3])
+            if puntuacion_podio > 0: 
+                puntuaciones[porrista] += puntuacion_podio
+                print("+", puntuacion_podio, "pts", end=' ')
+
+            # CARRERA AL SPRINT
+            if resultado_gp[3] != 'XXX': # hay carrera al sprint
+                print("(sprint)", end=' ')
+                # primero carrera sprint
+                if resultado_gp[3]==porra[index][3] and not resultado_gp[3]=='XXX':
                     puntuaciones[porrista] += puntuaciones_gp['clasificacion_pos1']
                     print("+", puntuaciones_gp['clasificacion_pos1'], "pts", end=' ')
-                # segundo clasificacion
-                if resultado_gp[1]==porra[1] and not resultado_gp[1]=='XXX':
+                # segundo carrera sprint
+                if resultado_gp[4]==porra[index][4] and not resultado_gp[4]=='XXX':
                     puntuaciones[porrista] += puntuaciones_gp['clasificacion_pos2']
                     print("+", puntuaciones_gp['clasificacion_pos2'], "pts", end=' ')
-                # tercero clasificacion
-                if resultado_gp[2]==porra[2] and not resultado_gp[2]=='XXX':
+                # tercero carrera sprint
+                if resultado_gp[5]==porra[index][5] and not resultado_gp[5]=='XXX':
                     puntuaciones[porrista] += puntuaciones_gp['clasificacion_pos3']
                     print("+", puntuaciones_gp['clasificacion_pos3'], "pts", end=' ')
-                # en podio de clasificacion
-                puntuacion_podio = puntuaciones_gp['clasificacion_podio'] * numero_valores_interseccion(resultado_gp[0:3],porra[0:3])
+                # en podio de carrera sprint
+                puntuacion_podio = puntuaciones_gp['clasificacion_podio'] * numero_valores_interseccion(resultado_gp[3:6],porra[index][3:6])
                 if puntuacion_podio > 0: 
                     puntuaciones[porrista] += puntuacion_podio
                     print("+", puntuacion_podio, "pts", end=' ')
 
-                # CARRERA AL SPRINT
-                if resultado_gp[3] != 'XXX': # hay carrera al sprint
-                    # primero carrera sprint
-                    if resultado_gp[3]==porra[3] and not resultado_gp[3]=='XXX':
-                        puntuaciones[porrista] += puntuaciones_gp['clasificacion_pos1']
-                        print("+", puntuaciones_gp['clasificacion_pos1'], "pts", end=' ')
-                    # segundo carrera sprint
-                    if resultado_gp[4]==porra[4] and not resultado_gp[4]=='XXX':
-                        puntuaciones[porrista] += puntuaciones_gp['clasificacion_pos2']
-                        print("+", puntuaciones_gp['clasificacion_pos2'], "pts", end=' ')
-                    # tercero carrera sprint
-                    if resultado_gp[5]==porra[5] and not resultado_gp[5]=='XXX':
-                        puntuaciones[porrista] += puntuaciones_gp['clasificacion_pos3']
-                        print("+", puntuaciones_gp['clasificacion_pos3'], "pts", end=' ')
-                    # en podio de carrera sprint
-                    puntuacion_podio = puntuaciones_gp['clasificacion_podio'] * numero_valores_interseccion(resultado_gp[3:6],porra[3:6])
-                    if puntuacion_podio > 0: 
-                        puntuaciones[porrista] += puntuacion_podio
-                        print("+", puntuacion_podio, "pts", end=' ')
+            # CARRERA
+            print("(carrera)", end=' ')
+            # primero carrera
+            if resultado_gp[6]==porra[index][6] and not resultado_gp[6]=='XXX':
+                puntuaciones[porrista] += puntuaciones_gp['carrera_pos1']
+                print("+", puntuaciones_gp['carrera_pos1'], "pts", end=' ')
+            # segundo carrera
+            if resultado_gp[7]==porra[index][7] and not resultado_gp[7]=='XXX':
+                puntuaciones[porrista] += puntuaciones_gp['carrera_pos2']
+                print("+", puntuaciones_gp['carrera_pos2'], "pts", end=' ')
+            # tercero carrera
+            if resultado_gp[8]==porra[index][8] and not resultado_gp[8]=='XXX':
+                puntuaciones[porrista] += puntuaciones_gp['carrera_pos3']
+                print("+", puntuaciones_gp['carrera_pos3'], "pts", end=' ')
+            # en podio de carrera
+            puntuacion_podio = puntuaciones_gp['carrera_podio'] * numero_valores_interseccion(resultado_gp[6:9],porra[index][6:9])
+            if puntuacion_podio > 0: 
+                puntuaciones[porrista] += puntuacion_podio
+                print("+", puntuacion_podio, "pts", end=' ')
 
-                # CARRERA
-                # primero carrera
-                if resultado_gp[6]==porra[6] and not resultado_gp[6]=='XXX':
-                    puntuaciones[porrista] += puntuaciones_gp['carrera_pos1']
-                    print("+", puntuaciones_gp['carrera_pos1'], "pts", end=' ')
-                # segundo carrera
-                if resultado_gp[7]==porra[7] and not resultado_gp[7]=='XXX':
-                    puntuaciones[porrista] += puntuaciones_gp['carrera_pos2']
-                    print("+", puntuaciones_gp['carrera_pos2'], "pts", end=' ')
-                # tercero carrera
-                if resultado_gp[8]==porra[8] and not resultado_gp[8]=='XXX':
-                    puntuaciones[porrista] += puntuaciones_gp['carrera_pos3']
-                    print("+", puntuaciones_gp['carrera_pos3'], "pts", end=' ')
-                # en podio de carrera
-                puntuacion_podio = puntuaciones_gp['carrera_podio'] * numero_valores_interseccion(resultado_gp[6:9],porra[6:9])
-                if puntuacion_podio > 0: 
-                    puntuaciones[porrista] += puntuacion_podio
-                    print("+", puntuacion_podio, "pts", end=' ')
-
-                print()
+            print()
 
     print("\n-- RESUMEN DE PUNTUACIONES --")
     for porrista in porristas:
