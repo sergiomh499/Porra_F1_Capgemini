@@ -8,7 +8,7 @@ puntuaciones_gp = {
     'clasificacion_pos1'    : 12,
     'clasificacion_pos2'    : 9,
     'clasificacion_pos3'    : 7,
-    'clasificacion_podio'   : 4
+    'clasificacion_podio'   : 2
 }
 
 porristas = { # que no porreros ni mamporreros
